@@ -1,3 +1,4 @@
+import usersRouter from './api/users';
 import {loadUsers} from './seedData'
 import './db';
 import dotenv from 'dotenv';
@@ -26,6 +27,7 @@ app.use(express.static('public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use('/api/movies', moviesRouter);
+app.use('/api/users', usersRouter);
 app.use(errHandler);
 app.listen(port, () => {
   console.info(`Server running at ${port}`);
