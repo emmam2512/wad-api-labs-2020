@@ -1,5 +1,3 @@
-import session from 'express-session';
-import authenticate from './authenticate';
 import usersRouter from './api/users';
 import {loadUsers} from './seedData'
 import './db';
@@ -7,6 +5,8 @@ import dotenv from 'dotenv';
 import express from 'express';
 import moviesRouter from './api/movies';
 import bodyParser from 'body-parser';
+import session from 'express-session';
+import passport from './authenticate/index';
 
 
 dotenv.config();
@@ -31,14 +31,17 @@ app.use(session({
   saveUninitialized: true
 }));
 
+
 const port = process.env.PORT;
 
 app.use(express.static('public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
+app.use(passport.initialize());
+app.use('/api/movies', passport.authenticate('jwt', {session: false}), moviesRouter);
 app.use('/api/movies', moviesRouter);
 app.use('/api/users', usersRouter);
-app.use('/api/movies', authenticate, moviesRouter);
+app.use('/api/movies', passport.authenticate('jwt', {session: false}), moviesRouter);
 app.use(errHandler);
 app.listen(port, () => {
   console.info(`Server running at ${port}`);
