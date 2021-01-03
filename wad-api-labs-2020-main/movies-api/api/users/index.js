@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import express from 'express';
-import User from './userModel'
+import User from './userModel';
 
 
 const router = express.Router(); // eslint-disable-line

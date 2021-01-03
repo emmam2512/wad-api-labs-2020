@@ -1,5 +1,5 @@
 import usersRouter from './api/users';
-import {loadUsers} from './seedData'
+import {loadUsers, loadMovies} from './seedData';
 import './db';
 import dotenv from 'dotenv';
 import express from 'express';
@@ -22,8 +22,8 @@ const errHandler = (err, req, res, next) => {
 
 if (process.env.SEED_DB) {
   loadUsers();
-};
-
+  loadMovies();
+}
 const app = express();
 app.use(session({
   secret: 'ilikecake',
